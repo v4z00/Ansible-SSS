@@ -35,6 +35,22 @@ Bereite den unabhängigen Wiederherstellungsrechner vorab vor. Vertrauenspersone
 
 ## Als Add-on einsetzen
 
-Das Projekt läuft eigenständig. Auf einem Ansible-Allgm-Controller mit Add-on-Unterstützung kannst du es in der lokalen `versions.txt` registrieren. Der Controller installiert die Werkzeuge unter `playbooks/security/sss` und stellt `bin/control sss --help` bereit. Updates kommen über den Update-Checker. Die persönlichen Einstellungen gehören nach `/root/sss-config`.
+Auf einem Staging-Controller mit Add-on-Unterstützung ergänzt du die beiden Zeilen in der vorhandenen lokalen `versions.txt`. Behalte die übrigen Module und das leere Token-Feld am Ende der Zeile bei.
+
+```text
+# addon=SSS
+SSS|s0.1.0|https://github.com/v4z00/Ansible-SSS.git|
+```
+
+Prüfe die Vorschau im Controller-Ordner. Übernimm den Staging-Stand, wenn die Änderungen passen:
+
+```bash
+bin/control update-check --remote --staging
+bin/control update-check --apply --staging
+bin/control module-versions
+bin/control sss --help
+```
+
+Das Update umfasst alle registrierten Module und installiert das Paket unter `playbooks/security/sss`. Der neue Befehl zeigt die Optionen für die Einrichtung. Die Briefe erzeugst du separat vor Ort. Private Einstellungen gehören nach `/root/sss-config`. Der eigenständige Weg oben funktioniert auch ohne Controller.
 
 Entwicklungsbranch ist `staging`. Die Testbefehle stehen in der [englischen README](README.md#development). Der Code ist mit KI-Unterstützung entstanden. Hinweise aus der Praxis sind willkommen. Bitte ausschließlich Beispieldaten in Issues posten. [MIT-Lizenz](LICENSE)

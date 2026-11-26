@@ -35,7 +35,23 @@ Prepare the recovery computer before an emergency. Give trustees the entire `/ro
 
 ## Optional controller integration
 
-The standalone setup runs independently. On an Ansible-Allgm controller with add-on support, register this repository in the local `versions.txt` as an SSS add-on. Its installer mounts the kit under `playbooks/security/sss` and registers `bin/control sss`. Open `bin/control sss --help` for setup options. Acquire updates with the controller’s update checker. Keep private inputs in `/root/sss-config`.
+On a staging controller that already supports add-ons, add these two lines to the existing local `versions.txt`. Keep the other module rows and the empty final token field.
+
+```text
+# addon=SSS
+SSS|s0.1.0|https://github.com/v4z00/Ansible-SSS.git|
+```
+
+From the controller directory, preview the staging update, review all changes, then apply it:
+
+```bash
+bin/control update-check --remote --staging
+bin/control update-check --apply --staging
+bin/control module-versions
+bin/control sss --help
+```
+
+The update covers all registered modules and installs the kit under `playbooks/security/sss`. The registered command provides setup options. Producing letters remains an explicit local step. Keep private inputs under `/root/sss-config`. The standalone workflow above also works without a controller.
 
 ## Development
 
