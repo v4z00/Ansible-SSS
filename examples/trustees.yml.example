@@ -1,0 +1,4 @@
+trustees:
+  - {id: trustee1, first_name: Example, last_name: One, master_id: 1, infra_id: 1}
+  - {id: trustee2, first_name: Example, last_name: Two, master_id: 2, infra_id: 2}
+  - {id: trustee3, first_name: Example, last_name: Three, master_id: 3, infra_id: 3}

@@ -1,0 +1,151 @@
+---
+- name: Prepare the offline recovery kit
+  hosts: localhost
+  connection: local
+  become: true
+  gather_facts: true
+  vars:
+    recovery_language: "{{ local_options.sss.language | default('de' if local_options.sss.konfiguration_bestaetigt is defined else 'en') }}"
+  tasks:
+    - name: Require a local Debian-family host
+      ansible.builtin.assert:
+        that:
+          - ansible_facts.os_family == 'Debian'
+          - inventory_hostname == 'localhost'
+          - ansible_connection == 'local'
+
+    - name: Inspect the local configuration and installation paths
+      ansible.builtin.stat:
+        path: "{{ item }}"
+        follow: false
+        get_checksum: false
+      loop:
+        - /root/sss-config
+        - /root/sss-config/config.yml
+        - /root/sss-config/trustees.yml
+        - /root/rescue
+        - /root/rescue/SSS
+        - /root/rescue/SSS/bin
+        - /root/rescue/SSS/offline
+        - /root/rescue/SSS/ausgaben
+      register: recovery_paths
+
+    - name: Require root-owned private input files and safe directories
+      ansible.builtin.assert:
+        that:
+          - >-
+            (not item.stat.exists and item.item.startswith('/root/rescue')) or
+            (item.stat.exists and not item.stat.islnk and item.stat.uid == 0 and
+            ((item.item.endswith('.yml') and item.stat.isreg and item.stat.mode == '0600' and item.stat.nlink == 1) or
+            (not item.item.endswith('.yml') and item.stat.isdir and item.stat.mode == '0700')))
+      loop: "{{ recovery_paths.results }}"
+      loop_control:
+        label: "{{ item.item }}"
+
+    - name: Read private settings
+      ansible.builtin.include_vars:
+        file: /root/sss-config/config.yml
+        name: local_options
+      no_log: true
+    - name: Read the private trustee list
+      ansible.builtin.include_vars:
+        file: /root/sss-config/trustees.yml
+        name: local_people
+      no_log: true
+    - name: Validate the selected language and trustee list
+      ansible.builtin.assert:
+        that:
+          - recovery_language in ['en', 'de']
+          - (local_people.trustees is defined) != (local_people.treuhaender is defined)
+      no_log: true
+
+    - name: Install the offline tools
+      ansible.builtin.apt:
+        name: [ssss, python3]
+        state: present
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Create protected directories outside the checkout
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: root
+        group: root
+        mode: '0700'
+      loop:
+        - /root/rescue
+        - /root/rescue/SSS
+        - /root/rescue/SSS/bin
+        - /root/rescue/SSS/offline
+        - /root/rescue/SSS/ausgaben
+
+    - name: Install the generator
+      ansible.builtin.copy:
+        src: files/generate.py
+        dest: /root/rescue/SSS/bin/generate.py
+        owner: root
+        group: root
+        mode: '0700'
+
+    - name: Install recovery tools and launchers
+      ansible.builtin.copy:
+        src: "files/{{ item }}"
+        dest: "/root/rescue/SSS/offline/{{ item }}"
+        owner: root
+        group: root
+        mode: '0700'
+      loop:
+        - recover.py
+        - start-html.sh
+        - install-voraussetzungen.sh
+        - start-html.command
+        - start-html.bat
+        - start-html.ps1
+        - install-voraussetzungen.ps1
+
+    - name: Install the offline browser interface
+      ansible.builtin.copy:
+        src: files/notfall_entschluesselung.html
+        dest: /root/rescue/SSS/offline/notfall_entschluesselung.html
+        owner: root
+        group: root
+        mode: '0600'
+
+    - name: Install both trustee guides
+      ansible.builtin.copy:
+        src: "guides/{{ item }}"
+        dest: "/root/rescue/SSS/offline/{{ item }}"
+        owner: root
+        group: root
+        mode: '0600'
+      loop: [START-HERE.md, START-HIER.md, GUIDE.md, BEDIENUNGSANLEITUNG.md]
+
+    - name: Install quick start and trustee guide in the selected language
+      ansible.builtin.copy:
+        src: "guides/{{ item[recovery_language] }}"
+        dest: "/root/rescue/SSS/offline/{{ item.dest }}"
+        owner: root
+        group: root
+        mode: '0600'
+      loop:
+        - {dest: START.md, en: START-HERE.md, de: START-HIER.md}
+        - {dest: GUIDE-LOCAL.md, en: GUIDE.md, de: BEDIENUNGSANLEITUNG.md}
+
+    - name: Write the selected default for the offline browser
+      ansible.builtin.copy:
+        content: "{{ recovery_language }}\n"
+        dest: /root/rescue/SSS/offline/language.txt
+        owner: root
+        group: root
+        mode: '0600'
+
+    - name: Install validated generator settings
+      ansible.builtin.copy:
+        content: "{{ {'settings': local_options.sss, 'people': (local_people.trustees if local_people.trustees is defined else local_people.treuhaender)} | to_nice_json }}\n"
+        dest: /root/rescue/SSS/config.json
+        owner: root
+        group: root
+        mode: '0600'
+        validate: /usr/bin/python3 /root/rescue/SSS/bin/generate.py --validate-file %s
+      no_log: true

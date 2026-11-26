@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+/config.json
+/config.yml
+/treuhaender.yml
+/trustees.yml
+/ausgaben/
+/output/
+*.token
+*.key
+*.pem

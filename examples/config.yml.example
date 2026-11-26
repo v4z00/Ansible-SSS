@@ -1,0 +1,9 @@
+sss:
+  confirmed: false
+  language: en
+  master: {threshold: 2, shares: 3}
+  infra: {threshold: 2, shares: 3}
+  contact: REPLACE
+  locations: REPLACE
+  master_purpose: REPLACE
+  infra_purpose: REPLACE

@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "commands": [
+    {
+      "name": "sss",
+      "description": "Prepare the local emergency recovery kit",
+      "handler": "bin/control.d/sss.sh",
+      "feature": null,
+      "requires": [
+        "playbooks/security/sss/run.sh",
+        "playbooks/security/sss/setup.yml"
+      ],
+      "aliases": [
+        {
+          "name": "sss",
+          "args": []
+        }
+      ]
+    }
+  ]
+}

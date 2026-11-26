@@ -1,0 +1,142 @@
+{
+  "files": {
+    ".githooks/pre-commit": {
+      "mode": "0755",
+      "sha256": "38215db8fa4fe03b26398aef02494a4a8b3c148cf0c738d583b1f4f3e1f2b2ef"
+    },
+    ".githooks/pre-push": {
+      "mode": "0755",
+      "sha256": "4835138a6b7effa341e5ad82a2fd0e5c6c43280b8b850e86590d4ee22f8ee1a5"
+    },
+    ".githooks/staging_manifest.py": {
+      "mode": "0644",
+      "sha256": "3641d93fceea27b90f4190dda5c3339f135ede310cf616cc842ba016f7af25dd"
+    },
+    ".gitignore": {
+      "mode": "0644",
+      "sha256": "ba0c49071fe00c86a5a9af6c74f838f3915a4f3d5b0ac00b19e02ea98c597aeb"
+    },
+    "LICENSE": {
+      "mode": "0644",
+      "sha256": "05fc5c2cb768e145ac6e8a5a170e73e97ac86acb6d66e03431f620be701d0829"
+    },
+    "README.de.md": {
+      "mode": "0644",
+      "sha256": "da3e491dbccf68b25b66cf876061cefa1a42660e4160f4cf11d3921310e47598"
+    },
+    "README.md": {
+      "mode": "0644",
+      "sha256": "0c10c2ca2019aee48caf2d4209c03448b961f8a8021611703e93d09d4a3e3487"
+    },
+    "VERSION.txt": {
+      "mode": "0644",
+      "sha256": "e9dd8507f4bf0c6f42458e41aea833ad0bd3f6127272335eee9bf4d58541ed67"
+    },
+    "controller-addon.json": {
+      "mode": "0644",
+      "sha256": "49dc49605eca9508c55f5457a59ac0498545399ddf3cc1908c49077eb92d75a5"
+    },
+    "examples/config.yml.example": {
+      "mode": "0644",
+      "sha256": "1173cad21cba56085bebc3ff65de7c9ff0bec80a4dfcee43af46a7f5aab9048b"
+    },
+    "examples/trustees.yml.example": {
+      "mode": "0644",
+      "sha256": "def3b7f7b9e342028568c3651a3e0416ebcc015ea40a7bdbead4d045a7e2b3c6"
+    },
+    "files/generate.py": {
+      "mode": "0644",
+      "sha256": "709dbaf0408750b241b2c2e42c6ba7380eaced3f0b8cac89f783dba3635fcb0f"
+    },
+    "files/install-voraussetzungen.ps1": {
+      "mode": "0644",
+      "sha256": "fdccdde7c862c4220bd4badf4c2e31b172d3403f0af95df6fe5fb57aea0f44dd"
+    },
+    "files/install-voraussetzungen.sh": {
+      "mode": "0755",
+      "sha256": "484975555dad9c1b47a9d821e8b59304ff4cdaa34aea97c7329ff33e2cf48656"
+    },
+    "files/notfall_entschluesselung.html": {
+      "mode": "0644",
+      "sha256": "0a9338ad40e76bd99a2100dacf2ae659d4b5e8e4ff9e6b6b21c8476b87c521ed"
+    },
+    "files/recover.py": {
+      "mode": "0644",
+      "sha256": "58450251cc7d806cbe94fd6123ac8bd7c3bdcef47c27cb26e0c2a70c897bd2d2"
+    },
+    "files/start-html.bat": {
+      "mode": "0644",
+      "sha256": "0538d6f19cf57c43cbbde7665728535c70406f3c9cac8bbf786ebc10333dfe57"
+    },
+    "files/start-html.command": {
+      "mode": "0755",
+      "sha256": "62f005783b9a2daa8a9667aa4d1b2e05861a6dcab13a0139841192ce042cb3b4"
+    },
+    "files/start-html.ps1": {
+      "mode": "0644",
+      "sha256": "90c23b628ec25ded3d9605a1ccca6c89fe4ff6fabb70121b8a89aa2d601b31b3"
+    },
+    "files/start-html.sh": {
+      "mode": "0755",
+      "sha256": "985eb9037804748c1f1b223de997e1044b15c9b548bc76b3cd98e6e451101bac"
+    },
+    "guides/BEDIENUNGSANLEITUNG.md": {
+      "mode": "0644",
+      "sha256": "d0bbe4f6371ca10403c44a778dc99bb31c0f4804d3a85d5c964e2f2538a700ff"
+    },
+    "guides/GUIDE.md": {
+      "mode": "0644",
+      "sha256": "a30bd68687878a766a447140d1bc43dc59c4dfacccb3270d8f9115f7893a234f"
+    },
+    "guides/START-HERE.md": {
+      "mode": "0644",
+      "sha256": "8ef195b6e3efe05f43b729e3bf481db5dc6fc00233e911faa722b95ca4bca1f2"
+    },
+    "guides/START-HIER.md": {
+      "mode": "0644",
+      "sha256": "c1477111ef39dcfde8667cfc2a78d0cf18bddc4524ba9440664d6f5d032d5617"
+    },
+    "integration/sss.json": {
+      "mode": "0644",
+      "sha256": "a2846881f64d848aaebde5108978c7ac54559e57b563cc802b397687b467402d"
+    },
+    "integration/sss.md": {
+      "mode": "0644",
+      "sha256": "2a514d443b34a076b85c14edcd8d0081a8b9dcb9afc51f0c1572fae55c7f5f04"
+    },
+    "integration/sss.sh": {
+      "mode": "0755",
+      "sha256": "e396fbceeba69b6a4d4a00ba73f9b7e7bedb78736fb6326218cde008dab2b11e"
+    },
+    "run.sh": {
+      "mode": "0755",
+      "sha256": "8881a2eb68be52e83f991b72398c567606f74cafa6e73673c2822589c6a5375b"
+    },
+    "setup.yml": {
+      "mode": "0644",
+      "sha256": "1dcb105ead585f795fd929dc7c0033e06b7ddd34180eae09f9cdd3c31a33502f"
+    },
+    "start-generator.sh": {
+      "mode": "0755",
+      "sha256": "01c419d99376a36ae323425b42f8897055caa4f35dfc9818303f582014163a2c"
+    },
+    "tests/browser.cjs": {
+      "mode": "0644",
+      "sha256": "732da1c2e1019e89dcf1b0ded8a5f00b76ae689d0189551978da05fd8f608700"
+    },
+    "tests/test_addon.py": {
+      "mode": "0644",
+      "sha256": "3195faa457b5e7db78a0d8fa9cbfc1716c3d8800e47d9ba713ffa3c701deb5f3"
+    },
+    "tests/test_launcher.py": {
+      "mode": "0644",
+      "sha256": "a0111669b0dddb1240fea33625500fb20729b8f7c80e78ba3f664a8fbe38fd36"
+    },
+    "tests/test_sss.py": {
+      "mode": "0644",
+      "sha256": "5752ccb4c1e24052b5fb4b94d17099157736607612071520eae4b7e818f87882"
+    }
+  },
+  "profile": "SSS",
+  "schema": 1
+}

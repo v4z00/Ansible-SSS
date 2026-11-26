@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Offline recovery</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, sans-serif; color: #183432; background: #f4f5ef; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { width: min(880px, calc(100% - 36px)); margin: 48px auto; }
+    header { padding: 0 0 24px; border-bottom: 1px solid #cbd4cb; margin-bottom: 28px; }
+    .eyebrow { font-size: 12px; letter-spacing: .12em; font-weight: 750; text-transform: uppercase; }
+    h1 { font-size: clamp(30px, 6vw, 48px); letter-spacing: -.045em; line-height: 1.1; margin: 18px 0; }
+    p { line-height: 1.6; } .sub { color: #516560; max-width: 660px; }
+    .badge { display: inline-block; border: 1px solid #9bb8a7; padding: 6px 12px; border-radius: 30px; font-size: 12px; }
+    section { background: #fff; border: 1px solid #d9dfd5; border-radius: 16px; padding: 26px; margin: 18px 0; }
+    h2 { font-size: 20px; margin: 0 0 16px; }
+    label { display: block; font-weight: 650; margin: 20px 0 8px; }
+    textarea { width: 100%; min-height: 108px; resize: vertical; border: 1px solid #a9bab0; border-radius: 8px; padding: 12px; font: 13px/1.5 monospace; overflow-wrap: anywhere; }
+    select { width: 100%; padding: 14px; border: 1px solid #a9bab0; border-radius: 8px; background: white; color: #183432; font: inherit; font-weight: 650; }
+    textarea:focus, select:focus, button:focus-visible { outline: 3px solid #a0cbb9; outline-offset: 3px; }
+    button { border: 0; border-radius: 8px; padding: 13px 18px; font: inherit; font-weight: 650; cursor: pointer; background: #185446; color: white; }
+    button.secondary { background: #eaf0e9; color: #284a3e; }
+    button:disabled { opacity: .45; cursor: wait; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    small { color: #516560; line-height: 1.6; display: block; margin-top: 10px; }
+    #status { min-height: 24px; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .error { color: #a42c1c; } #metadata { background: #edf3ea; padding: 12px; border-radius: 8px; overflow-wrap: anywhere; }
+    #password, #second-factor { display: block; white-space: pre-wrap; overflow-wrap: anywhere; padding: 18px; background: #f4f5ef; font: 18px/1.6 monospace; }
+    [hidden] { display: none !important; } footer { color: #63736a; font-size: 13px; line-height: 1.7; }
+    @media (max-width: 550px) { main { margin-top: 24px; } section { padding: 20px; } }
+  </style>
+</head>
+<body><main>
+<header>
+  <label for="language">Language / Sprache</label>
+  <select id="language"><option value="en">English</option><option value="de">Deutsch</option></select>
+  <h1 data-label="title">Offline recovery</h1>
+  <p data-label="intro"></p>
+</header>
+<section id="startup" hidden><h2 data-label="start"></h2><p data-label="launch"></p></section>
+<section>
+  <label for="category" data-label="category"></label>
+  <select id="category"><option value="master" data-label="master"></option><option value="infra" data-label="infra"></option></select>
+  <p id="hint"></p>
+  <div id="inputs"></div>
+  <div class="actions"><button id="restore" data-label="recover"></button><button class="secondary" id="clear" data-label="clear"></button></div>
+  <p id="status" role="status"></p>
+</section>
+<section id="result" hidden>
+  <h2 data-label="credentials"></h2>
+  <button id="reveal" data-label="reveal"></button>
+  <div id="output" hidden><p data-label="password"></p><pre id="password"></pre>
+  <div id="factorBlock" hidden><p id="factorLabel"></p><pre id="second-factor"></pre><p id="factorHelp"></p></div></div>
+</section>
+</main><script>
+'use strict';
+const words = {
+  en: {title:'Offline recovery',intro:'Use the original personal letters together on this computer. Keep the launcher open until you finish.',
+    start:'Start the local recovery service',launch:'Open start-html.bat on Windows, start-html.command on macOS or run bash start-html.sh on Linux. Use the local address printed by the launcher.',
+    category:'Access to recover',master:'Vaultwarden master access',infra:'Infrastructure access',first:'Enter the first complete share. It specifies how many letters are needed.',
+    quorum:(t,n)=>`Use ${t} different shares from this set of ${n}.`,field:'Share',recover:'Recover password',clear:'Clear',credentials:'Recovered credentials',reveal:'Reveal for this session',
+    password:'Password',totp:'TOTP setup secret',recovery_code:'2FA recovery code',totpHelp:'Import this setup secret into the trusted authenticator for this account.',
+    recovery_codeHelp:'Use this code in the documented account recovery procedure.',invalid:'Check the access category and enter the required number of distinct complete shares from one set.',
+    ready:'Credentials are ready. The result clears after 60 seconds.',expired:'The result has been cleared.',failed:'Could not recover access. Check the shares and local service.'},
+  de: {title:'Offline-Wiederherstellung',intro:'Öffnet die persönlichen Originalbriefe gemeinsam an diesem Rechner. Lasst das Startfenster bis zum Ende geöffnet.',
+    start:'Lokalen Dienst starten',launch:'Öffnet start-html.bat unter Windows, start-html.command unter macOS oder startet bash start-html.sh unter Linux. Öffnet die vom Starter angezeigte lokale Adresse.',
+    category:'Gewünschter Zugang',master:'Vaultwarden-Masterzugang',infra:'Infrastrukturzugang',first:'Gebt zuerst einen vollständigen Teil ein. Er enthält die benötigte Anzahl der Briefe.',
+    quorum:(t,n)=>`Verwendet ${t} verschiedene Teile aus diesem Satz mit ${n} Teilen.`,field:'Teil',recover:'Passwort wiederherstellen',clear:'Leeren',credentials:'Wiederhergestellte Zugangsdaten',reveal:'Jetzt anzeigen',
+    password:'Passwort',totp:'TOTP-Einrichtungsschlüssel',recovery_code:'2FA-Wiederherstellungscode',totpHelp:'Übernehmt den Einrichtungsschlüssel in den vertrauenswürdigen Authenticator dieses Kontos.',
+    recovery_codeHelp:'Verwendet den Code im dokumentierten Notfallverfahren für dieses Konto.',invalid:'Prüft den Bereich und gebt die erforderliche Anzahl verschiedener vollständiger Teile aus demselben Satz ein.',
+    ready:'Zugangsdaten liegen vor. Das Ergebnis wird nach 60 Sekunden geleert.',expired:'Das Ergebnis wurde geleert.',failed:'Wiederherstellung fehlgeschlagen. Prüft die Teile und den lokalen Dienst.'}
+};
+const el = id => document.getElementById(id);
+const local = location.protocol === 'http:' && location.hostname === '127.0.0.1';
+let language = document.documentElement.lang, generation = 0, timer, recovered;
+const msg = () => words[language];
+const fields = () => Array.from(el('inputs').querySelectorAll('textarea'));
+function forget() {
+  generation++; clearTimeout(timer); recovered = null;
+  el('password').textContent = ''; el('second-factor').textContent = '';
+  el('result').hidden = true; el('reveal').hidden = false; el('output').hidden = true;
+  el('factorBlock').hidden = true; el('status').textContent = '';
+}
+function metadata(value) {
+  const parts = value.replace(/\s/g,'').split('|');
+  if (parts.length !== 7 || !/^SSS[12]$/.test(parts[0]) || !/^[a-f0-9]{32}$/.test(parts[1]) ||
+      parts[2] !== el('category').value || !/^\d{1,2}$/.test(parts[3]) || !/^\d{1,2}$/.test(parts[4])) return null;
+  const t = Number(parts[3]), n = Number(parts[4]);
+  return 2 <= t && t <= n && n <= 20 ? [t,n] : null;
+}
+function resize() {
+  const existing = fields(), info = metadata(existing[0]?.value || '');
+  const count = info ? info[0] : 1;
+  for (const input of existing.slice(count)) input.parentElement.remove();
+  for (let i = existing.length; i < count; i++) {
+    const label = document.createElement('label');
+    label.append(document.createTextNode(msg().field + ' ' + (i + 1)));
+    const area = document.createElement('textarea');
+    area.spellcheck = false; area.autocomplete = 'off'; area.maxLength = 5000;
+    area.addEventListener('input', () => { forget(); resize(); });
+    label.append(area); el('inputs').append(label);
+  }
+  el('hint').textContent = info ? msg().quorum(...info) : msg().first;
+  el('restore').disabled = !local || !info || fields().some(input => !input.value.trim());
+}
+function reset() { forget(); el('inputs').replaceChildren(); resize(); }
+function render() {
+  language = el('language').value; document.documentElement.lang = language;
+  document.title = msg().title;
+  for (const node of document.querySelectorAll('[data-label]')) node.textContent = msg()[node.dataset.label];
+  el('startup').hidden = local; reset();
+}
+el('language').value = language;
+el('language').onchange = render;
+el('category').onchange = reset; el('clear').onclick = reset;
+el('restore').onclick = async () => {
+  if (!local) return;
+  forget();
+  const current = generation, shares = fields().map(x => x.value), info = metadata(shares[0]);
+  if (!info || shares.length !== info[0] || shares.some(s => !metadata(s))) {
+    el('status').textContent = msg().invalid; return;
+  }
+  el('restore').disabled = true;
+  try {
+    const response = await fetch('combine', {method:'POST',headers:{'Content-Type':'application/json'},cache:'no-store',body:JSON.stringify({kind:el('category').value,shares})});
+    if (!response.ok) throw new Error();
+    const data = await response.json();
+    if (generation !== current) return;
+    el('inputs').replaceChildren(); resize(); recovered = data;
+    el('result').hidden = false; el('status').textContent = msg().ready;
+    timer = setTimeout(() => { forget(); el('status').textContent = msg().expired; }, 60000);
+  } catch { if (generation === current) el('status').textContent = msg().failed; }
+  finally { if (generation === current) resize(); }
+};
+el('reveal').onclick = () => {
+  if (!recovered) return;
+  el('password').textContent = recovered.secret; el('reveal').hidden = true; el('output').hidden = false;
+  if (recovered.second_factor) {
+    el('factorLabel').textContent = msg()[recovered.second_factor_type];
+    el('factorHelp').textContent = msg()[recovered.second_factor_type + 'Help'];
+    el('second-factor').textContent = recovered.second_factor; el('factorBlock').hidden = false;
+  }
+};
+window.addEventListener('pagehide', reset); render();
+</script></body></html>
