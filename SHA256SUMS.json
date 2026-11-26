@@ -30,7 +30,7 @@
     },
     "VERSION.txt": {
       "mode": "0644",
-      "sha256": "e9dd8507f4bf0c6f42458e41aea833ad0bd3f6127272335eee9bf4d58541ed67"
+      "sha256": "80447316529fc62014fbaa047fb67c51ac30e32830cda370405349d8d66d196c"
     },
     "controller-addon.json": {
       "mode": "0644",
@@ -102,7 +102,7 @@
     },
     "integration/sss.md": {
       "mode": "0644",
-      "sha256": "f640676ab5cf486e5a1eeeea21780f1bf260dc5a8d151c90f7ab1c091307914c"
+      "sha256": "e293488dfe41a9cfdf986fb190f2c950e090f7b4d4b97d5797af39540c4bf354"
     },
     "integration/sss.sh": {
       "mode": "0755",
