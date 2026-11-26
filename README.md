@@ -6,10 +6,10 @@ Give several people a way to recover access together. Each trustee receives a pe
 
 ## Set up on Debian
 
-Run the following from the checkout root on the machine that will generate the letters. The staging branch contains the development version.
+Clone the stable release on the machine that will generate the letters.
 
 ```bash
-git clone --branch staging https://github.com/v4z00/Ansible-SSS.git
+git clone --branch main https://github.com/v4z00/Ansible-SSS.git
 cd Ansible-SSS
 sudo install -d -m 0700 /root/sss-config
 sudo test -e /root/sss-config/config.yml || sudo install -m 0600 examples/config.yml.example /root/sss-config/config.yml
@@ -35,18 +35,18 @@ Prepare the recovery computer before an emergency. Give trustees the entire `/ro
 
 ## Optional controller integration
 
-On a staging controller that already supports add-ons, add these two lines to the existing local `versions.txt`. Keep the other module rows and the empty final token field.
+On a controller with Allgm 0.8.1 or later, add these two lines to the existing local `versions.txt`. Keep the other module rows and the empty final token field.
 
 ```text
 # addon=SSS
-SSS|s0.1.0|https://github.com/v4z00/Ansible-SSS.git|
+SSS|0.0.0|https://github.com/v4z00/Ansible-SSS.git|
 ```
 
-From the controller directory, preview the staging update, review all changes, then apply it:
+From the controller directory, preview the stable update, review all changes, then apply it:
 
 ```bash
-bin/control update-check --remote --staging
-bin/control update-check --apply --staging
+bin/control update-check --remote
+bin/control update-check --apply
 bin/control module-versions
 bin/control sss --help
 ```

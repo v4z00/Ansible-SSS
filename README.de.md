@@ -6,10 +6,10 @@ Mit diesem Werkzeug können Vertrauenspersonen einen Zugang gemeinsam wiederhers
 
 ## Auf Debian einrichten
 
-Auf dem Rechner, der die Briefe erzeugen soll, zunächst den Entwicklungsstand holen:
+Die stabile Version auf dem Rechner holen, der die Briefe erzeugen soll:
 
 ```bash
-git clone --branch staging https://github.com/v4z00/Ansible-SSS.git
+git clone --branch main https://github.com/v4z00/Ansible-SSS.git
 cd Ansible-SSS
 sudo install -d -m 0700 /root/sss-config
 sudo test -e /root/sss-config/config.yml || sudo install -m 0600 examples/config.yml.example /root/sss-config/config.yml
@@ -35,18 +35,18 @@ Bereite den unabhängigen Wiederherstellungsrechner vorab vor. Vertrauenspersone
 
 ## Als Add-on einsetzen
 
-Auf einem Staging-Controller mit Add-on-Unterstützung ergänzt du die beiden Zeilen in der vorhandenen lokalen `versions.txt`. Behalte die übrigen Module und das leere Token-Feld am Ende der Zeile bei.
+Auf einem Controller mit Allgm ab Version 0.8.1 ergänzt du die beiden Zeilen in der vorhandenen lokalen `versions.txt`. Behalte die übrigen Module und das leere Token-Feld am Ende der Zeile bei.
 
 ```text
 # addon=SSS
-SSS|s0.1.0|https://github.com/v4z00/Ansible-SSS.git|
+SSS|0.0.0|https://github.com/v4z00/Ansible-SSS.git|
 ```
 
-Prüfe die Vorschau im Controller-Ordner. Übernimm den Staging-Stand, wenn die Änderungen passen:
+Prüfe die Vorschau im Controller-Ordner. Übernimm die stabile Version, wenn die Änderungen passen:
 
 ```bash
-bin/control update-check --remote --staging
-bin/control update-check --apply --staging
+bin/control update-check --remote
+bin/control update-check --apply
 bin/control module-versions
 bin/control sss --help
 ```
