@@ -23,7 +23,7 @@ The default command displays usage. The setup playbook targets localhost. Recove
     "bin/control.d/sss.json": "a2846881f64d848aaebde5108978c7ac54559e57b563cc802b397687b467402d",
     "bin/control.d/sss.sh": "e396fbceeba69b6a4d4a00ba73f9b7e7bedb78736fb6326218cde008dab2b11e",
     "playbooks/security/sss/run.sh": "8881a2eb68be52e83f991b72398c567606f74cafa6e73673c2822589c6a5375b",
-    "playbooks/security/sss/setup.yml": "1dcb105ead585f795fd929dc7c0033e06b7ddd34180eae09f9cdd3c31a33502f"
+    "playbooks/security/sss/setup.yml": "55c6c224b2438ce1a9e8b3c9f2ef61b6af2c78e389b1f5cc460ef08e935acf46"
   }
 }
 ```

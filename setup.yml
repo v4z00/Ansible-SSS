@@ -5,6 +5,8 @@
   become: true
   gather_facts: true
   vars:
+    local_options: "{{ private_settings.content | b64decode | from_yaml }}"
+    local_people: "{{ private_trustees.content | b64decode | from_yaml }}"
     recovery_language: "{{ local_options.sss.language | default('de' if local_options.sss.konfiguration_bestaetigt is defined else 'en') }}"
   tasks:
     - name: Require a local Debian-family host
@@ -42,16 +44,18 @@
       loop_control:
         label: "{{ item.item }}"
 
-    - name: Read private settings
-      ansible.builtin.include_vars:
-        file: /root/sss-config/config.yml
-        name: local_options
+    - name: Read private settings with local root privileges
+      ansible.builtin.slurp:
+        src: /root/sss-config/config.yml
+      register: private_settings
       no_log: true
-    - name: Read the private trustee list
-      ansible.builtin.include_vars:
-        file: /root/sss-config/trustees.yml
-        name: local_people
+
+    - name: Read the private trustee list with local root privileges
+      ansible.builtin.slurp:
+        src: /root/sss-config/trustees.yml
+      register: private_trustees
       no_log: true
+
     - name: Validate the selected language and trustee list
       ansible.builtin.assert:
         that:

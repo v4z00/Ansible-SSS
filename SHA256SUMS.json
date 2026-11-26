@@ -102,7 +102,7 @@
     },
     "integration/sss.md": {
       "mode": "0644",
-      "sha256": "2a514d443b34a076b85c14edcd8d0081a8b9dcb9afc51f0c1572fae55c7f5f04"
+      "sha256": "f640676ab5cf486e5a1eeeea21780f1bf260dc5a8d151c90f7ab1c091307914c"
     },
     "integration/sss.sh": {
       "mode": "0755",
@@ -114,7 +114,7 @@
     },
     "setup.yml": {
       "mode": "0644",
-      "sha256": "1dcb105ead585f795fd929dc7c0033e06b7ddd34180eae09f9cdd3c31a33502f"
+      "sha256": "55c6c224b2438ce1a9e8b3c9f2ef61b6af2c78e389b1f5cc460ef08e935acf46"
     },
     "start-generator.sh": {
       "mode": "0755",
