@@ -10,7 +10,7 @@ Beim Beispiel mit zwei von drei Anteilen treffen sich zwei der drei benannten Ve
 
 Der [Schnellstart](guides/START-HIER.md) ist für die Personen, die die Briefe öffnen. Die [Bedienungsanleitung](guides/BEDIENUNGSANLEITUNG.md) erklärt die Prüfung und Verwendung des Ergebnisses. Vor der Verteilung legt die Administration mit den [Vorlagen](examples/) das Quorum und die Empfänger fest.
 
-**Staging s0.1.2** ergänzt dieses Beispiel. Vorhandene Briefe und Offline-Werkzeuge bleiben verwendbar.
+**Version 0.1.2** ergänzt dieses Beispiel. Vorhandene Briefe und Offline-Werkzeuge bleiben verwendbar.
 
 ## Auf Debian einrichten
 

@@ -10,7 +10,7 @@ With the example 2-of-3 quorum, any two appointed trustees can bring their lette
 
 The [quick start](guides/START-HERE.md) is for the people opening the letters. The [trustee guide](guides/GUIDE.md) covers checking the result and using the recovery material. The administrator uses [examples/](examples/) to define the quorum and letter recipients before distribution.
 
-**Staging s0.1.2** adds this walkthrough. Existing letters and recovery kits can be used as before.
+**Release 0.1.2** adds this walkthrough. Existing letters and recovery kits can be used as before.
 
 ## Set up on Debian
 
