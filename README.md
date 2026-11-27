@@ -4,6 +4,14 @@
 
 Give several people a way to recover access together. Each trustee receives a personal letter with one or two shares. A configurable quorum reconstructs the Vaultwarden master password or a separate infrastructure password. The master set can also contain a TOTP setup secret or a 2FA recovery code.
 
+## What a recovery looks like
+
+With the example 2-of-3 quorum, any two appointed trustees can bring their letters to an offline computer. They open the recovery page, choose the same category and enter one share from each letter. The tool checks that the shares belong to the same set and verifies the recovered value. A trustee holding only one share cannot complete this example alone.
+
+The [quick start](guides/START-HERE.md) is for the people opening the letters. The [trustee guide](guides/GUIDE.md) covers checking the result and using the recovery material. The administrator uses [examples/](examples/) to define the quorum and letter recipients before distribution.
+
+**Staging s0.1.2** adds this walkthrough. Existing letters and recovery kits can be used as before.
+
 ## Set up on Debian
 
 Clone the stable release on the machine that will generate the letters.

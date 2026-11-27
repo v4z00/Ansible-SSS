@@ -4,6 +4,14 @@
 
 Mit diesem Werkzeug können Vertrauenspersonen einen Zugang gemeinsam wiederherstellen. Jede Person erhält einen eigenen Brief. Wie viele Briefe für das Vaultwarden-Master-Passwort oder den getrennten Infrastrukturzugang nötig sind, legst du selbst fest. Der Master-Satz kann außerdem einen TOTP-Einrichtungsschlüssel oder 2FA-Wiederherstellungscode enthalten.
 
+## Wie eine Wiederherstellung abläuft
+
+Beim Beispiel mit zwei von drei Anteilen treffen sich zwei der drei benannten Vertrauenspersonen mit ihren Briefen an einem Offline-Rechner. Sie öffnen die Wiederherstellungsseite, wählen dieselbe Kategorie und geben je einen Anteil aus ihrem Brief ein. Das Werkzeug prüft, ob die Anteile zum selben Satz gehören, und verifiziert das Ergebnis. Ein einzelner Brief reicht in diesem Beispiel nicht.
+
+Der [Schnellstart](guides/START-HIER.md) ist für die Personen, die die Briefe öffnen. Die [Bedienungsanleitung](guides/BEDIENUNGSANLEITUNG.md) erklärt die Prüfung und Verwendung des Ergebnisses. Vor der Verteilung legt die Administration mit den [Vorlagen](examples/) das Quorum und die Empfänger fest.
+
+**Staging s0.1.2** ergänzt dieses Beispiel. Vorhandene Briefe und Offline-Werkzeuge bleiben verwendbar.
+
 ## Auf Debian einrichten
 
 Die stabile Version auf dem Rechner holen, der die Briefe erzeugen soll:

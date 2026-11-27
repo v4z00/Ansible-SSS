@@ -22,15 +22,15 @@
     },
     "README.de.md": {
       "mode": "0644",
-      "sha256": "7d54067f3bd54553229cf1e9b143914f2772038747b071f33c4c9754e7471073"
+      "sha256": "f2cb7a9dbe6a5a51091fd642b12a263d046a5dd5a731d8eaef281f1af0fa0ad0"
     },
     "README.md": {
       "mode": "0644",
-      "sha256": "67c33d0589bdebb38bffcda8f47e5f319c6ae64f890de4a889706ace53be19d2"
+      "sha256": "881af551e7d9036d31468d81471f5ab3a1594a2eba19443c50568e1465af8eba"
     },
     "VERSION.txt": {
       "mode": "0644",
-      "sha256": "80447316529fc62014fbaa047fb67c51ac30e32830cda370405349d8d66d196c"
+      "sha256": "297b50f08386d3521f8fdaf2f78eb8d9d0acdf452d2e61596905fba37208c792"
     },
     "controller-addon.json": {
       "mode": "0644",
